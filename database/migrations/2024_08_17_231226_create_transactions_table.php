@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string(Transactions::PLAN_CODE)->nullable();
             $table->decimal(Transactions::PRICE)->nullable();
             $table->integer(Transactions::STATUS)->nullable();
+            $table->string(Transactions::FIRST_MONTH)->nullable();
+            $table->string(Transactions::SECONT_MONTH)->nullable();
             $table->timestamps();
         });
     }

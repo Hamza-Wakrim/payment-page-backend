@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Customers\CreateCustomerController;
 use App\Http\Controllers\Products\GetProductsController;
+use App\Http\Controllers\Products\ShowProductController;
 use App\Http\Controllers\Transactions\CreateHostedPageController;
 use App\Models\Config;
 use Illuminate\Support\Facades\Http;
@@ -24,6 +25,7 @@ Route::get('authZoho', function() {
 });
 
 Route::get('/products', GetProductsController::class);
+Route::get('/products/{id}', ShowProductController::class);
 Route::post('/customer', CreateCustomerController::class);
 Route::post('/hostedpages' , CreateHostedPageController::class);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

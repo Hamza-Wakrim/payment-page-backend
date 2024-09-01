@@ -18,6 +18,8 @@ class Transactions extends Model
     public const PRICE = 'price';
     public const STATUS ='status';
     public const CUSTOMER = 'customer';
+    public const FIRST_MONTH = 'first_month';
+    public const SECONT_MONTH = 'second_month';
     public const PLAN = 'plan';
 
     public const STATUS_PAID = 1;
@@ -34,7 +36,9 @@ class Transactions extends Model
         self::HOSTED_PAGE_ID,
         self::PLAN_CODE,
         self::PRICE,
-        self::STATUS
+        self::STATUS,
+        self::FIRST_MONTH,
+        self::SECONT_MONTH
     ];
 
     protected $cast = [
@@ -42,17 +46,17 @@ class Transactions extends Model
         self::CUSTOMER_ID => 'integer',
     ];
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->getAttribute(self::ID);
     }
 
-    public function getCustomerId(): ?int
+    public function getCustomerId(): int
     {
         return $this->getAttribute(self::CUSTOMER_ID);
     }
 
-    public function getZohoSubscriptionId(): ?string
+    public function getZohoSubscriptionId(): string
     {
         return $this->getAttribute(self::ZOHO_SUBSCRIPTION_ID);
     }
@@ -69,11 +73,21 @@ class Transactions extends Model
 
     public function getAmount(): ?float
     {
-        return $this->getAttribute(self::AMOUNT);
+        return $this->getAttribute(self::PRICE);
     }
 
     public function getStatus(): ?int
     {
         return $this->getAttribute(self::STATUS);
+    }
+
+    public function getFirstMonth(): ?string
+    {
+        return $this->getAttribute(self::FIRST_MONTH);
+    }
+
+    public function getSecondMonth(): ?string
+    {
+        return $this->getAttribute(self::SECONT_MONTH);
     }
 }

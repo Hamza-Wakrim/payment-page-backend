@@ -17,4 +17,9 @@ class ProductRepository
     {
         return $this->zohoService->getProducts();
     }
+
+    public function findById(string $id)
+    {
+        return $this->zohoService->findById($id);
+    }
 }

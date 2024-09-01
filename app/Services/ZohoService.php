@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Transactions;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -85,15 +86,35 @@ class ZohoService
 
     public function getProducts()
     {
-        try {
-            $response = Http::withHeaders(
-                $this->getHeaders()
-            )
-                ->get($this->baseUrl . '/billing/v1/plans');
+        $cacheKey = 'billing_plans'; // Unique cache key for the list of plans
+
+        // Check if the plans are already cached
+        $plans = Cache::remember($cacheKey, 60 * 60, function () {
+            $response = Http::withHeaders($this->getHeaders())
+                            ->get($this->baseUrl . '/billing/v1/plans');
 
             return json_decode(json_encode($response->json()), true)['plans'];
+        });
+
+        return $plans;
+    }
+
+    public function findById(string $id)
+    {
+        try {
+            $cacheKey = 'billing_plan_' . $id; // Unique cache key for each plan
+
+            // Check if the plan is already cached
+            $plan = Cache::remember($cacheKey, 60 * 60, function () use ($id) {
+                $response = Http::withHeaders($this->getHeaders())
+                                ->get($this->baseUrl . '/billing/v1/plans/' . $id);
+
+                return json_decode(json_encode($response->json()), true)['plan'];
+            });
+
+            return $plan;
         } catch (Throwable $e) {
-            throw new \Exception('Error getting products');
+            throw new \Exception('Error getting product : '. $id);
         }
     }
 
